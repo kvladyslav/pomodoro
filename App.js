@@ -4,20 +4,20 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import { useFonts } from 'expo-font';
 import { uuidv4 } from './src/utils/uuid';
 import Focus from './src/features/focus/Focus';
 import Timer from './src/features/timer/Timer';
 import { setList, clearList, getList } from './src/utils/storage';
 import UserList from "./src/features/list/UserList";
+import { NavigationContainer } from '@react-navigation/native';
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import UserProfile from './src/features/list/UserProfile'
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 
 
 const STATUSES = {
@@ -25,26 +25,17 @@ const STATUSES = {
   CANCELED: 0,
 };
 
-// function App() {
-//   return (
-//       <NavigationContainer>
-//         <Stack.Navigator initialRouteName="Focus">
-//           <Stack.Screen name="Users" component={UsersScreen} />
-//           <Stack.Screen name="Focus" component={FocusScreen} />
-//         </Stack.Navigator>
-//       </NavigationContainer>
-//   );
-// }
-
 function App() {
   return (
       <NavigationContainer>
-        <Tab.Navigator screenOptions={({route}) => ({
+        <Tab.Navigator
+            initialRouteName="UsersScreen"
+            screenOptions={({route}) => ({
           headerShown: false,
           tabBarIcon: ({focused, color, size}) => {
             let iconName;
 
-            if (route.name === 'Users') {
+            if (route.name === 'UsersScreen') {
               iconName = focused
                   ? 'list'
                   : 'add-to-list';
@@ -58,14 +49,23 @@ function App() {
           tabBarActiveTintColor: '#25224E',
           tabBarInactiveTintColor: 'gray',
         })}>
-          <Tab.Screen name="Users" component={UsersScreen} />
+          <Tab.Screen name="UsersScreen" component={UsersScreen} />
           <Tab.Screen name="Focus" component={FocusScreen} />
         </Tab.Navigator>
       </NavigationContainer>
   );
 }
 
-const UsersScreen = () => {
+function UsersScreen() {
+  return (
+        <Stack.Navigator initialRouteName="Users">
+          <Stack.Screen name="Users" component={Users} />
+          <Stack.Screen name="UserProfile" component={UserProfile} />
+        </Stack.Navigator>
+  );
+};
+
+function Users({navigation}) {
   return (
       <View style={styles.container}>
         <UserList />
@@ -155,6 +155,7 @@ const FocusScreen = ({navigation}) => {
     </>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

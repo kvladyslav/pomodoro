@@ -6,11 +6,16 @@ import {
     ActivityIndicator,
     Image,
     StyleSheet,
+    TouchableOpacity
 } from 'react-native';
 import Constants from "expo-constants";
 import {Entypo, EvilIcons} from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import UserProfile from './UserProfile'
 
-export default () => {
+
+const UserList = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(1);
@@ -74,8 +79,10 @@ export default () => {
                 <FlatList
                     data={data}
                     renderItem={({item}) => (
-                        <View
-                            style={styles.itemContainer}>
+                        <TouchableOpacity
+                            style={styles.itemContainer}
+                            onPress={() => navigation.navigate('UserProfile')}
+                        >
                             <View style={styles.userLogo}>
                                 <Image style={styles.logo} source={{uri: item.picture.large}}/>
                                 <Text style={{marginTop: 5, fontWeight: 'bold'}}>{item.name.first}</Text>
@@ -100,7 +107,7 @@ export default () => {
                                         style={styles.userInfoItemText}>{item.location.city}, {item.location.state}</Text>
                                 </View>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item.phone}
                     ListFooterComponent={renderFooter}
