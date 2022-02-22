@@ -81,7 +81,7 @@ const UserList = ({navigation}) => {
                     renderItem={({item}) => (
                         <TouchableOpacity
                             style={styles.itemContainer}
-                            onPress={() => navigation.navigate('UserProfile')}
+                            onPress={() => navigation.navigate('UserProfile', {name: item.name.first})}
                         >
                             <View style={styles.userLogo}>
                                 <Image style={styles.logo} source={{uri: item.picture.large}}/>
@@ -163,3 +163,5 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
     }
 });
+
+export default UserList;

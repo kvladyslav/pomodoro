@@ -58,17 +58,21 @@ function App() {
 
 function UsersScreen() {
   return (
-        <Stack.Navigator initialRouteName="Users">
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+            initialRouteName="Users">
           <Stack.Screen name="Users" component={Users} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
         </Stack.Navigator>
   );
 };
 
-function Users({navigation}) {
+const Users = (props) => {
   return (
       <View style={styles.container}>
-        <UserList />
+        <UserList {...props}/>
       </View>
   )}
 
